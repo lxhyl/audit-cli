@@ -12,6 +12,8 @@ import { registerBlockCommand } from './commands/block.js'
 import { registerStorageCommand } from './commands/storage.js'
 import { registerCallCommand } from './commands/call.js'
 import { registerProxyCommand } from './commands/proxy.js'
+import { registerRunCommand } from './commands/run.js'
+import { registerSimCommand } from './commands/sim.js'
 import { CHAINS } from './chains.js'
 import Table from 'cli-table3'
 import chalk from 'chalk'
@@ -35,6 +37,8 @@ registerBlockCommand(program)
 registerStorageCommand(program)
 registerCallCommand(program)
 registerProxyCommand(program)
+registerRunCommand(program)
+registerSimCommand(program)
 
 program
   .command('chains')

@@ -48,6 +48,16 @@ export function registerConfigCommands(program: Command): void {
     })
 
   config
+    .command('set-rpc <chain> <url>')
+    .description('Set an RPC URL for a chain (used by Foundry commands)')
+    .action((chain: string, url: string) => {
+      const cfg = loadConfig()
+      cfg.rpcUrls = { ...cfg.rpcUrls, [chain.toLowerCase()]: url }
+      saveConfig(cfg)
+      printSuccess(`RPC URL for "${chain}" saved.`)
+    })
+
+  config
     .command('show')
     .description('Show current configuration')
     .option('--json', 'Output raw JSON')
@@ -69,8 +79,16 @@ export function registerConfigCommands(program: Command): void {
       if (display.envApiKey) {
         console.log(`  ${chalk.cyan('Env Key:')}      ${display.envApiKey}`)
       }
-      console.log(`  ${chalk.cyan('Default Chain:')} ${cfg.defaultChain ?? chalk.gray('ethereum')}`)
+      console.log(`  ${chalk.cyan('Default Chain:')}  ${cfg.defaultChain ?? chalk.gray('ethereum')}`)
       console.log(`  ${chalk.cyan('Default Output:')} ${cfg.defaultOutput ?? chalk.gray('table')}`)
+      if (cfg.rpcUrls && Object.keys(cfg.rpcUrls).length > 0) {
+        console.log(`  ${chalk.cyan('RPC URLs:')}`)
+        for (const [chain, url] of Object.entries(cfg.rpcUrls)) {
+          console.log(`    ${chalk.gray(chain + ':')} ${url}`)
+        }
+      } else {
+        console.log(`  ${chalk.cyan('RPC URLs:')}       ${chalk.gray('(none set)')}`)
+      }
       console.log()
     })
 }

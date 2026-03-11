@@ -6,6 +6,7 @@ export interface Config {
   apiKey?: string
   defaultChain?: string
   defaultOutput?: 'table' | 'json'
+  rpcUrls?: Record<string, string>
 }
 
 const CONFIG_DIR = join(homedir(), '.audit-cli')
@@ -49,4 +50,15 @@ export function requireApiKey(config: Config): string {
 
 export function getConfigPath(): string {
   return CONFIG_FILE
+}
+
+export function requireRpcUrl(chain: string, config: Config): string {
+  const url = process.env['RPC_URL'] ?? config.rpcUrls?.[chain.toLowerCase()]
+  if (!url) {
+    console.error(`No RPC URL configured for chain "${chain}".`)
+    console.error(`Set it with: audit config set-rpc ${chain} <url>`)
+    console.error(`Or set the RPC_URL environment variable.`)
+    process.exit(1)
+  }
+  return url
 }
