@@ -1,0 +1,26 @@
+{
+  "name": "etherscan-cli",
+  "version": "0.1.0",
+  "description": "CLI for Etherscan API v2 - query any EVM chain",
+  "type": "module",
+  "bin": {
+    "audit": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "chalk": "^5.3.0",
+    "cli-table3": "^0.6.3",
+    "commander": "^12.1.0",
+    "viem": "^2.47.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
